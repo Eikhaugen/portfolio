@@ -86,6 +86,7 @@ function App() {
         <div
           id="offscreen-render"
           ref={renderRef}
+          className="w-[512px] h-[384px]"
         >
           <Routes location={location}>
             <Route path="/channel/1" element={<Channel1 />} />
