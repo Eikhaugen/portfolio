@@ -1,4 +1,4 @@
-export default function Channel1() {
+export default function Channel100() {
   return (
     <div className="w-[512px] h-[384px] bg-black flex flex-col items-center text-white p-2">
       <div className="w-full flex items-center justify-between p-2">

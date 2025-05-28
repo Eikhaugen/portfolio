@@ -1,4 +1,4 @@
-export default function Channel2() {
+export default function Channel200() {
   return (
     <div className="w-[512px] h-[384px] bg-[#00ff00] flex items-center justify-center text-white">
       <div className="text-center">
