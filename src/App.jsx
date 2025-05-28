@@ -15,9 +15,10 @@ import TVRemote from './components/TVRemote';
 import CRTModel from './components/CRTModel';
 import Channel100 from './routes/Channel100';
 import Channel200 from './routes/Channel200';
-import Channel3 from './routes/Channel3';
+import Channel210 from './routes/Channel210';
+import Channel300 from './routes/Channel300';
 
-const dev = false;
+const dev = true;
 
 function App() {
   const [texture, setTexture] = useState(null);
@@ -104,24 +105,30 @@ function App() {
               ref={renderRef}
               className="w-[512px] h-[384px]"
             >
-              {currentView === 100 && <Channel100 />}
-              {currentView === 200 && <Channel200 />}
-              {currentView === 3 && <Channel3 />}
+              {currentView === 100 && (
+                <Channel100 input={input.length > 0 ? input : String(currentView)} />
+              )}
+              {currentView === 101 && (
+                <Channel101 input={input.length > 0 ? input : String(currentView)} />
+              )}
+              {currentView === 200 && (
+                <Channel200 input={input.length > 0 ? input : String(currentView)} />
+              )}
+              {currentView === 210 && (
+                <Channel210 input={input.length > 0 ? input : String(currentView)} />
+              )}
+              {currentView === 220 && (
+                <Channel220 input={input.length > 0 ? input : String(currentView)} />
+              )}
+              {currentView === 230 && (
+                <Channel230 input={input.length > 0 ? input : String(currentView)} />
+              )}
+              {currentView === 300 && (
+                <Channel300 input={input.length > 0 ? input : String(currentView)} />
+              )}
             </div>
           </div>
-        ) : (
-      <div
-        id="offscreen-render"
-        ref={renderRef}
-        className="w-[512px] h-[384px] absolute -left-[9999px] top-0"
-      >
-        {currentView === 100 && (
-          <Channel100 input={input.length > 0 ? input : String(currentView)} />
-        )}
-        {currentView === 200 && <Channel200 />}
-        {currentView === 3 && <Channel3 />}
-      </div>
-        )}
+        ) : null}
       </div>
 
       <TVRemote onChannelChange={handleChannelChange} input={input} />

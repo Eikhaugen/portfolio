@@ -1,12 +1,9 @@
+import DateBar from "../components/DateBar";
+
 export default function Channel100({ input }) {
   return (
     <div className="w-[512px] h-[384px] bg-black flex flex-col items-center text-white p-2">
-      <div className="w-full flex items-center justify-between p-2">
-        <span>100</span>
-        <span id="channelInput">{input.padStart(3, "–")}</span>
-        <span>Wed 28th 2025</span>
-        <span>10:30</span>
-      </div>
+      <DateBar input={input} />
       <h1 className="text-left w-full text-2xl bg-[#0000ff] font-bold pb-4 pl-4">Thomas Eikhaugen's Portfolio</h1>
       <p className="p-2">
         Welcome to my portfolio! Here you can find information about my projects, skills, and experience.
