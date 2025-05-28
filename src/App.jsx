@@ -59,40 +59,39 @@ function App() {
   return (
     <>
       <div className="flex flex-row w-screen h-screen overflow-hidden">
-        <div className="w-1/2 h-full bg-gray-900">
-        <Canvas camera={{ position: [4.8, 7, -11.3], fov: 50 }}>
-        <LogCameraPosition />
-        <SetCameraRotation rotation={[-2.78, 0.28, 3.05]} />
-        <ambientLight />
-        <pointLight position={[10, 10, 10]} />
-        <CRTModel texture={texture} channel={channel} />
-        <OrbitControls
-          enablePan={false}
-          enableZoom={false} 
-          target={[0, 4.5, 0]}
-        />
-        <EffectComposer>
-          <Bloom intensity={0.1} luminanceThreshold={0.1} luminanceSmoothing={0.2} />
-        </EffectComposer>
-        <ScreenLight />
-      </Canvas>
+        <div className="w-full h-full bg-gray-900">
+          <Canvas camera={{ position: [4.8, 7, -11.3], fov: 50 }}>
+            <LogCameraPosition />
+            <SetCameraRotation rotation={[-2.78, 0.28, 3.05]} />
+            <ambientLight />
+            <pointLight position={[10, 10, 10]} />
+            <CRTModel texture={texture} channel={channel} />
+            <OrbitControls
+              enablePan={false}
+              enableZoom={false}
+              target={[0, 4.5, 0]}
+            />
+            <EffectComposer>
+              <Bloom intensity={0.1} luminanceThreshold={0.1} luminanceSmoothing={0.2} />
+            </EffectComposer>
+            <ScreenLight />
+          </Canvas>
 
         </div>
 
-        <div className="w-1/2 h-full bg-white overflow-auto p-4">
           <div
             id="offscreen-render"
             ref={renderRef}
-            className="w-[512px] h-[384px]"
+            className="w-[512px] h-[384px] absolute -left-[9999px] top-0"
           >
-              <Routes location={location}>
-                <Route path="/channel/1" element={<Channel1 />} />
-                <Route path="/channel/2" element={<Channel2 />} />
-                <Route path="/channel/3" element={<Channel3 />} />
-              </Routes>
+
+            <Routes location={location}>
+              <Route path="/channel/1" element={<Channel1 />} />
+              <Route path="/channel/2" element={<Channel2 />} />
+              <Route path="/channel/3" element={<Channel3 />} />
+            </Routes>
           </div>
         </div>
-      </div>
 
       <div className="absolute bottom-4 left-4 bg-black text-white p-4 rounded shadow-lg space-x-2">
         <p>Change Channel:</p>
