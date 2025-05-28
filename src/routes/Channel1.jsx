@@ -12,7 +12,7 @@ export default function Channel1() {
          Feel free to explore and get in touch if you have any questions or would like to collaborate.
       </p>
       <div  className="w-full flex p-2 mt-2">
-        <div className="flex flex-col w-full border-[#ff0000] border-2">
+        <div className="flex flex-col w-full border-[#ff0000] border-2 pb-2">
           <div className="flex w-full p-2">
             <span>Index</span>
             <div className="w-full border-b-2 border-dotted"></div>
@@ -25,7 +25,7 @@ export default function Channel1() {
             <span>200</span>
           </div>
         </div>
-                <div className="flex flex-col w-full border-[#ff0000] border-2">
+                <div className="flex flex-col w-full border-[#ff0000] border-2 pb-2">
           <div className="flex w-full p-2">
             <span>About{'\u00A0'}Me</span>
             <div className="w-full border-b-2 border-dotted"></div>
