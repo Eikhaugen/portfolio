@@ -10,10 +10,19 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@react-three/drei": "^10.0.8",
+    "@react-three/fiber": "^9.1.2",
+    "@react-three/postprocessing": "^3.0.4",
     "@tailwindcss/vite": "^4.1.7",
+    "dom-to-image-more": "^3.6.0",
+    "html2canvas": "^1.4.1",
+    "postprocessing": "^6.37.3",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "tailwindcss": "^4.1.7"
+    "react-router": "^7.6.1",
+    "react-router-dom": "^7.6.1",
+    "tailwindcss": "^4.1.7",
+    "zustand": "^5.0.5"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
