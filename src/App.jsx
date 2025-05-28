@@ -16,6 +16,8 @@ import Channel1 from './routes/Channel1';
 import Channel2 from './routes/Channel2';
 import Channel3 from './routes/Channel3';
 
+  const dev = false;
+
 function App() {
   const [texture, setTexture] = useState(null);
   const location = useLocation();
@@ -79,18 +81,32 @@ function App() {
 
         </div>
 
-          <div
-            id="offscreen-render"
-            ref={renderRef}
-            className="w-[512px] h-[384px] absolute -left-[9999px] top-0"
-          >
-
-            <Routes location={location}>
-              <Route path="/channel/1" element={<Channel1 />} />
-              <Route path="/channel/2" element={<Channel2 />} />
-              <Route path="/channel/3" element={<Channel3 />} />
-            </Routes>
-          </div>
+    {dev ? (
+      <div className="w-full h-full bg-white overflow-auto p-4">
+        <div
+          id="offscreen-render"
+          ref={renderRef}
+        >
+          <Routes location={location}>
+            <Route path="/channel/1" element={<Channel1 />} />
+            <Route path="/channel/2" element={<Channel2 />} />
+            <Route path="/channel/3" element={<Channel3 />} />
+          </Routes>
+        </div>
+      </div>
+    ) : (
+      <div
+        id="offscreen-render"
+        ref={renderRef}
+        className="w-[512px] h-[384px] absolute -left-[9999px] top-0"
+      >
+        <Routes location={location}>
+          <Route path="/channel/1" element={<Channel1 />} />
+          <Route path="/channel/2" element={<Channel2 />} />
+          <Route path="/channel/3" element={<Channel3 />} />
+        </Routes>
+      </div>
+    )}
         </div>
 
       <div className="absolute bottom-4 left-4 bg-black text-white p-4 rounded shadow-lg space-x-2">
