@@ -1,8 +1,9 @@
-export default function Channel100() {
+export default function Channel100({ input }) {
   return (
     <div className="w-[512px] h-[384px] bg-black flex flex-col items-center text-white p-2">
       <div className="w-full flex items-center justify-between p-2">
         <span>100</span>
+        <span id="channelInput">{input.padStart(3, "–")}</span>
         <span>Wed 28th 2025</span>
         <span>10:30</span>
       </div>

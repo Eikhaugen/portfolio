@@ -22,6 +22,7 @@ const dev = false;
 function App() {
   const [texture, setTexture] = useState(null);
   const [currentView, setCurrentView] = useState(() => Number(localStorage.getItem('currentView')) || 100);
+  const [input, setInput] = useState(""); // <-- Add this line
   const location = useLocation();
   const navigate = useNavigate();
   const renderRef = useRef(null);
@@ -59,13 +60,19 @@ function App() {
     };
 
     renderToTexture();
-  }, [channel]);
+  }, [channel, input]); // <-- Add input here
 
   // Handle channel change from TVRemote
-  const handleChannelChange = (newChannel) => {
-    setCurrentView(newChannel);
-    localStorage.setItem('currentView', newChannel);
-    navigate(`/channel/${newChannel}`);
+  const handleChannelChange = (digit) => {
+    const newInput = (input + digit).slice(-3);
+    setInput(newInput);
+
+    if (newInput.length === 3) {
+      setCurrentView(Number(newInput));
+      localStorage.setItem('currentView', Number(newInput));
+      navigate(`/channel/${Number(newInput)}`);
+      setInput(""); // reset input after navigation
+    }
   };
 
   return (
@@ -103,19 +110,21 @@ function App() {
             </div>
           </div>
         ) : (
-          <div
-            id="offscreen-render"
-            ref={renderRef}
-            className="w-[512px] h-[384px] absolute -left-[9999px] top-0"
-          >
-            {currentView === 100 && <Channel100 />}
-            {currentView === 200 && <Channel200 />}
-            {currentView === 3 && <Channel3 />}
-          </div>
+      <div
+        id="offscreen-render"
+        ref={renderRef}
+        className="w-[512px] h-[384px] absolute -left-[9999px] top-0"
+      >
+        {currentView === 100 && (
+          <Channel100 input={input.length > 0 ? input : String(currentView)} />
+        )}
+        {currentView === 200 && <Channel200 />}
+        {currentView === 3 && <Channel3 />}
+      </div>
         )}
       </div>
 
-      <TVRemote onChannelChange={handleChannelChange} />
+      <TVRemote onChannelChange={handleChannelChange} input={input} />
     </>
   );
 }
