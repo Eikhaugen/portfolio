@@ -1,6 +1,6 @@
 import { format } from 'date-fns';
 
-export default function DateBar({input}) {
+export default function DateBar({input, currentView}) {
     const currentDate = new Date();
     const formattedDate = format(currentDate, 'EEE do yyyy');
     const formattedTime = format(currentDate, 'HH:mm');
@@ -9,7 +9,7 @@ export default function DateBar({input}) {
 
     return (
         <div className="w-full flex items-center justify-between p-2">
-            <span>{localStorage.getItem('currentView') || 100}</span>
+            <span>{ currentView }</span>
             <span id="channelInput">{displayInput.padStart(3, "-")}</span>
             <span>{formattedDate}</span>
             <span>{formattedTime}</span>

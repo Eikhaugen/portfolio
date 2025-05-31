@@ -1,9 +1,9 @@
 import DateBar from "../components/DateBar";
 
-export default function Channel200({ input }) {
+export default function Channel200({ input, currentView }) {
   return (
     <div className="w-[512px] h-[384px] bg-black flex flex-col items-center text-white p-2">
-      <DateBar input={input} />
+      <DateBar input={input} currentView={currentView}/>
       <h1 className="text-left w-full text-2xl bg-[#ff0000] font-bold pb-4 pl-4">My Projects</h1>
       <p className="p-2">
         This is a list of some of my projects.

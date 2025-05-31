@@ -47,7 +47,6 @@ export default function CRTModel({ texture, channel }) {
       console.log(`🎨 Set fallback color for channel ${channel}`);
     }
 
-    // Dispose previous material
     if (screenMesh.material) {
       screenMesh.material.dispose();
     }

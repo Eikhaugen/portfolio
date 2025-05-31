@@ -1,7 +1,6 @@
-import { useEffect, useRef, useState, useMemo } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
-import { Routes, Route, useLocation, useNavigate, Link } from 'react-router-dom';
 import * as THREE from 'three';
 import html2canvas from 'html2canvas';
 import { EffectComposer, Bloom } from '@react-three/postprocessing';
@@ -9,29 +8,35 @@ import LogCameraPosition from './components/LogCameraPosition';
 import SetCameraRotation from './components/SetCameraRotation';
 import { RectAreaLightUniformsLib } from 'three/examples/jsm/lights/RectAreaLightUniformsLib.js';
 import ScreenLight from './components/ScreenLight';
-RectAreaLightUniformsLib.init();
-import TVRemote from './components/TVRemote';
-
 import CRTModel from './components/CRTModel';
-import Channel100 from './routes/Channel100';
-import Channel200 from './routes/Channel200';
-import Channel210 from './routes/Channel210';
-import Channel300 from './routes/Channel300';
+import TVRemote from './components/TVRemote';
+import InfoContainer from './components/InfoContainer';
 
-const dev = true;
+// Pages
+import Page100 from './routes/Page100';
+import Page101 from './routes/Page101';
+import Page200 from './routes/Page200';
+import Page210 from './routes/Page210';
+import Page220 from './routes/Page220';
+import Page230 from './routes/Page230';
+import Page300 from './routes/Page300';
+
+RectAreaLightUniformsLib.init();
+
+const dev = false;
 
 function App() {
   const [texture, setTexture] = useState(null);
-  const [currentView, setCurrentView] = useState(() => Number(localStorage.getItem('currentView')) || 100);
-  const [input, setInput] = useState(""); // <-- Add this line
-  const location = useLocation();
-  const navigate = useNavigate();
+  const [currentView, setCurrentView] = useState(100);
+  const [input, setInput] = useState('');
   const renderRef = useRef(null);
 
-  const channel = useMemo(() => {
-    const match = location.pathname.match(/\/channel\/(\d+)/);
-    return match ? parseInt(match[1], 10) : currentView;
-  }, [location, currentView]);
+  const [showInfo, setShowInfo] = useState(false);
+
+  const handleToggleInfo = () => {
+    setShowInfo(prev => !prev);
+  };
+
 
   useEffect(() => {
     const renderToTexture = async () => {
@@ -54,85 +59,101 @@ function App() {
         tex.wrapS = THREE.ClampToEdgeWrapping;
         tex.wrapT = THREE.ClampToEdgeWrapping;
         setTexture(tex);
-        console.log('✅ Texture updated with html2canvas for channel', channel);
+        console.log('✅ Texture updated with html2canvas for page', currentView);
       } catch (error) {
         console.error('❌ html2canvas failed:', error);
       }
     };
 
     renderToTexture();
-  }, [channel, input]); // <-- Add input here
+  }, [currentView, input]);
 
-  // Handle channel change from TVRemote
-  const handleChannelChange = (digit) => {
+  const handlePageChange = (digit) => {
     const newInput = (input + digit).slice(-3);
     setInput(newInput);
 
     if (newInput.length === 3) {
-      setCurrentView(Number(newInput));
-      localStorage.setItem('currentView', Number(newInput));
-      navigate(`/channel/${Number(newInput)}`);
-      setInput(""); // reset input after navigation
+      const nextPage = Number(newInput);
+      setCurrentView(nextPage);
+      setInput('');
     }
   };
 
+  const renderPage = () => {
+    const props = { input: input.length > 0 ? input : String(currentView), currentView };
+    switch (currentView) {
+      case 100: return <Page100 {...props} />;
+      case 101: return <Page101 {...props} />;
+      case 200: return <Page200 {...props} />;
+      case 210: return <Page210 {...props} />;
+      case 220: return <Page220 {...props} />;
+      case 230: return <Page230 {...props} />;
+      case 300: return <Page300 {...props} />;
+      default: return <div className="text-lg p-4">No signal (Page {currentView})</div>;
+    }
+  };
+
+  const offscreenRenderElement = (
+    <div
+      id="offscreen-render"
+      ref={renderRef}
+      className={`w-[512px] h-[384px] overflow-auto
+        ${dev ? 'relative bg-white' : 'absolute -left-[9999px] top-0'}
+      `}
+    >
+      {renderPage()}
+    </div>
+  );
+
+<InfoContainer
+  visible={showInfo}
+  onClose={() => setShowInfo(false)}
+  currentView={currentView}
+/>
+
   return (
-    <>
-      <div className="flex flex-row w-screen h-screen overflow-hidden">
-        <div className="w-full h-full bg-gray-900">
-          <Canvas camera={{ position: [4.8, 7, -11.3], fov: 50 }}>
-            <LogCameraPosition />
-            <SetCameraRotation rotation={[-2.78, 0.28, 3.05]} />
-            <ambientLight />
-            <pointLight position={[10, 10, 10]} />
-            <CRTModel texture={texture} channel={currentView} />
-            <OrbitControls
-              enablePan={false}
-              enableZoom={false}
-              target={[0, 4.5, 0]}
-            />
-            <EffectComposer>
-              <Bloom intensity={0.1} luminanceThreshold={0.1} luminanceSmoothing={0.2} />
-            </EffectComposer>
-            <ScreenLight />
-          </Canvas>
-        </div>
+    <div>
+<div className="flex flex-row w-screen h-screen overflow-hidden">
+  <div className="w-full h-full bg-gray-900">
+    <Canvas camera={{ position: [4.8, 7, -11.3], fov: 50 }}>
+      <LogCameraPosition />
+      <SetCameraRotation rotation={[-2.78, 0.28, 3.05]} />
+      <ambientLight />
+      <pointLight position={[10, 10, 10]} />
+      <CRTModel texture={texture} page={currentView} />
+      <OrbitControls enablePan={false} enableZoom={false} target={[0, 4.5, 0]} />
+      <EffectComposer>
+        <Bloom intensity={0.1} luminanceThreshold={0.1} luminanceSmoothing={0.2} />
+      </EffectComposer>
+      <ScreenLight />
+    </Canvas>
+  </div>
 
-        {dev ? (
-          <div className="w-full h-full bg-white overflow-auto p-4">
-            <div
-              id="offscreen-render"
-              ref={renderRef}
-              className="w-[512px] h-[384px]"
-            >
-              {currentView === 100 && (
-                <Channel100 input={input.length > 0 ? input : String(currentView)} />
-              )}
-              {currentView === 101 && (
-                <Channel101 input={input.length > 0 ? input : String(currentView)} />
-              )}
-              {currentView === 200 && (
-                <Channel200 input={input.length > 0 ? input : String(currentView)} />
-              )}
-              {currentView === 210 && (
-                <Channel210 input={input.length > 0 ? input : String(currentView)} />
-              )}
-              {currentView === 220 && (
-                <Channel220 input={input.length > 0 ? input : String(currentView)} />
-              )}
-              {currentView === 230 && (
-                <Channel230 input={input.length > 0 ? input : String(currentView)} />
-              )}
-              {currentView === 300 && (
-                <Channel300 input={input.length > 0 ? input : String(currentView)} />
-              )}
-            </div>
-          </div>
-        ) : null}
+  {dev && (
+    <div>
+      <div className="relative">
+        {offscreenRenderElement}
       </div>
+    </div>
+  )}
+</div>
 
-      <TVRemote onChannelChange={handleChannelChange} input={input} />
-    </>
+{!dev && offscreenRenderElement} 
+
+<InfoContainer
+  visible={showInfo}
+  onClose={() => setShowInfo(false)}
+  currentView={currentView}
+/>
+
+<TVRemote
+  onPageChange={handlePageChange}
+  input={input}
+  currentView={currentView}
+  onInfo={handleToggleInfo}
+/>
+
+    </div>
   );
 }
 
