@@ -8,7 +8,7 @@ export default function Channel210({ input, currentView }) {
       <div  className="w-full flex p-2 mt-2">
         <div className="flex flex-col w-full border-[#ff0000] border-2 pb-2">
             <p>
-                Anemic Heroes is a game made for the Agency 2 course at Noroff School of Technology and Digital Media. It is a turn-based RPG, featuring inventory management, character progression, and a simple battle system. The game is designed to be played in a web browser and is built using HTML, CSS, and JavaScript.
+                Anemic Heroes is a game made for the Agency 2 course at Noroff School of Technology and Digital Media. It is a turn-based dungeon crawler, featuring inventory management, character progression, and a simple battle system. The game is designed to be played in a web browser and is built using React, Javascript and TailwindCSS.
             </p>
             <p>
               Made as a group project for the Agency 2 course during the Frontend Development program at Noroff School of Technology and Digital Media.
