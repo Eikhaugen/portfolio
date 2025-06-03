@@ -20,6 +20,7 @@ import Page210 from './routes/Page210';
 import Page220 from './routes/Page220';
 import Page230 from './routes/Page230';
 import Page300 from './routes/Page300';
+import Page400 from './routes/Page400';
 
 RectAreaLightUniformsLib.init();
 
@@ -59,7 +60,6 @@ function App() {
         tex.wrapS = THREE.ClampToEdgeWrapping;
         tex.wrapT = THREE.ClampToEdgeWrapping;
         setTexture(tex);
-        console.log('✅ Texture updated with html2canvas for page', currentView);
       } catch (error) {
         console.error('❌ html2canvas failed:', error);
       }
@@ -89,7 +89,8 @@ function App() {
       case 220: return <Page220 {...props} />;
       case 230: return <Page230 {...props} />;
       case 300: return <Page300 {...props} />;
-      default: return <div className="text-lg p-4">No signal (Page {currentView})</div>;
+      case 400: return <Page400 {...props} />;
+      default: return <Page100 {...props} />;
     }
   };
 
